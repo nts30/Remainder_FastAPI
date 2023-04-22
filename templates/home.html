@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="display-4 mb-4">Reminder App</h1>
+<form method="POST" class="mb-4">
+    <div class="form-group">
+        <label for="reminder">Напоминание:</label>
+        <input type="text" class="form-control" id="reminder" name="reminder"
+               placeholder="Введите текст напоминания" required>
+    </div>
+    <div class="form-group">
+        <label for="date">Дата:</label>
+        <input type="date" class="form-control" id="date" name="date" required>
+    </div>
+    <div class="form-group">
+        <label for="time">Время:</label>
+        <input type="time" class="form-control" id="time" name="time" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Добавить напоминание.</button>
+</form>
+{% if upcoming_reminders %}
+<h2 class="mb-4">Предстоящие напоминания:</h2>
+<ul class="list-group">
+    {% for reminder in upcoming_reminders %}
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+        {{ reminder.text }}
+        <span class="badge badge-secondary">{{ reminder.date }} {{ reminder.time }}</span>
+        <form action="{{ url_for('remove_reminder', index=reminder.index) }}" method="post">
+            <button type="submit" class="btn btn-danger">Удалить</button>
+        </form>
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% endblock %}
